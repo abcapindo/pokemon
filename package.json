@@ -1,0 +1,25 @@
+{
+  "name": "pokemon_search",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abcapindo/pokemonSearch.git"
+  },
+  "author": "Andrew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abcapindo/pokemonSearch/issues"
+  },
+  "homepage": "https://github.com/abcapindo/pokemonSearch#readme",
+  "dependencies": {
+    "chart.js": "^2.2.1",
+    "elasticsearch": "^11.0.1",
+    "express": "^4.14.0",
+    "ui-select": "^0.18.1"
+  }
+}

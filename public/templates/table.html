@@ -1,0 +1,75 @@
+<div class="container" style="padding-top: 65px;">
+    <div class="panel panel-default" ng-controller="tableCtrl" ng-init=sort("id")>
+        <div class="panel-heading">Search Pokemon</div>
+        <div class="panel-body">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(0)></i>
+                            </th>
+                            <th>Image</th>
+                            <th>Name
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(1)></i>
+                                <i class="fa fa-chevron-up" aria-hidden="true" ng-click=updateList(9)></i>
+                            </th>
+                            <th>
+                                Type 1
+                            </th>
+                            <th>
+                                Type 2
+                            </th>
+                            <th>Attack
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(2)></i>
+                            </th>
+                            <th>Defense
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(3)></i>
+                            </th>
+                            <th>Special Attack
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(4)></i>
+                            </th>
+                            <th>Special Defense
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(5)></i>
+                            </th>
+                            <th>
+                                Speed<i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(14)></i>
+                            </th>
+                            <th>
+                                HP
+                                <i class="fa fa-chevron-down" aria-hidden="true" ng-click=updateList(7)></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="pokemon in pokemonList">
+                            <td>{{ pokemon.id }}</td>
+                            <td><img ng-src="/images/sprites/{{pokemon.id}}.png"/></td>
+                            <td><a ng-href="/#/pokemon/{{pokemon.id}}">{{ pokemon.name }}</a></td>
+                            <td><img style="height: 20px" ng-src="{{pokemon.types[0]}}"/></td>
+                            <td>
+                                <img style="height: 20px" ng-if="pokemon.types[1]" ng-src="{{pokemon.types[1]}}"/>
+                            </td>
+                            <td>{{ pokemon.attack }}
+                            </td>
+                            <td>{{ pokemon.defense }}
+                            </td>
+                            <td>{{ pokemon.special_attack }}
+                            </td>
+                            <td>{{ pokemon.special_defense }}
+                            </td>
+                            <td>{{ pokemon.speed }}
+                            </td>
+                            <td>{{ pokemon.hp }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row" align="center">
+                <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" force-ellipses="true" max-size="maxSize" class="pagination-sm" boundary-links="true"></ul>
+            </div>
+        </div>
+    </div>
+</div>
