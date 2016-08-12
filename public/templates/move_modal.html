@@ -1,0 +1,40 @@
+<div class="modal-header type-{{data.type.name}}">
+    <h3 class="modal-title">{{ data.name }}</h3>
+    <img ng-src="images/types/{{ data.type.name }}.png" style="height: 20px;"/>
+    <img ng-src="images/types/{{ data.damage_type}}.png" style="height: 20px;"/>
+</div>
+<div class="modal-body">
+    <h5>Description:</h5>
+    <p>{{ data.description }}</p>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <td>
+                    PP:
+                </td>
+                <td>
+                    {{ data.pp }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Accuracy:
+                </td>
+                <td>
+                    {{ data.accuracy }}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Power:
+                </td>
+                <td>
+                    {{ data.power }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+</div>

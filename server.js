@@ -6,10 +6,6 @@ var client = new elasticsearch.Client({
     log: 'trace'
 })
 
-// var sorting = function(ordering) {
-//     if
-// }
-
 var sorting = [{
     "id": {
         "order": "asc",
@@ -116,6 +112,7 @@ app.get('/api/search/pokemon/:id', function(req, res) {
 app.get('/api/pokemon/:start/:step/:sortBy', function(req, res) {
     sort = sorting[parseInt(req.params.sortBy)]
     client.search({
+        type: "pokemon",
         body: {
             sort: sort,
             from: req.params.start,
@@ -140,63 +137,15 @@ app.get('/api/pokemon/:start/:step/:sortBy', function(req, res) {
     });
 });
 
-app.get('/types', function(req, res) {
-    res.send({
-        "types": [{
-            "name": "Electric",
-            "value": "electric"
-        }, {
-            "name": "Water",
-            "value": "Water"
-        }, {
-            "name": "Fire",
-            "value": "fire"
-        }, {
-            "name": "Grass",
-            "value": "grass"
-        }, {
-            "name": "Ground",
-            "value": "ground"
-        }, {
-            "name": "Rock",
-            "value": "rock"
-        }, {
-            "name": "Flying",
-            "value": "flying"
-        }, {
-            "name": "Psychic",
-            "value": "psychic"
-        }, {
-            "name": "Ghost",
-            "value": "ghost"
-        }, {
-            "name": "Dark",
-            "value": "dark"
-        }, {
-            "name": "Bug",
-            "value": "bug"
-        }, {
-            "name": "Dragon",
-            "value": "dragon"
-        }, {
-            "name": "Fairy",
-            "value": "fairy"
-        }, {
-            "name": "Poison",
-            "value": "poison"
-        }, {
-            "name": "Fighting",
-            "value": "fighting"
-        }, {
-            "name": "Normal",
-            "value": "normal"
-        }, {
-            "name": "Ice",
-            "value": "ice"
-        }, {
-            "name": "Steel",
-            "value": "steel"
-        }]
+app.get('/api/move/:id', function(req, res) {
+    client.get({
+        index: "data",
+        type: "moves",
+        id: parseInt(req.params.id)
+    }).then(function(body) {
+        res.send(body._source);
+    }, function(error) {
+        res.send(error.message);
     });
 });
 

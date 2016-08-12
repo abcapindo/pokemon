@@ -1,5 +1,17 @@
 var app = angular.module('pokemonApp', ['ngRoute', 'ui.bootstrap', 'chart.js']);
 
+String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+// app.factory('colorFactory', function() {
+//     return {
+//         typeToColor: function(type) {
+//             if
+//         }
+//     }
+// })
+
 app.config(['$routeProvider', function($routeProvider) {
     $routeProvider
         .when('/', {
@@ -36,7 +48,7 @@ app.controller('tableCtrl', function($scope, $http, $rootScope) {
             var newList = []
             for (x in pokemonList) {
                 newList.push({
-                    name: pokemonList[x].name,
+                    name: pokemonList[x].name.capitalizeFirstLetter(),
                     id: pokemonList[x].id,
                     attack: pokemonList[x].attack.stat,
                     defense: pokemonList[x].defense.stat,
@@ -76,10 +88,9 @@ app.controller('tableCtrl', function($scope, $http, $rootScope) {
 
 });
 
-app.controller('pkmnCtrl', function($scope, $http, $rootScope, $routeParams) {
+app.controller('pkmnCtrl', function($scope, $http, $rootScope, $routeParams, $uibModal, $log) {
     $http.get('/api/search/pokemon/' + $routeParams["id"]).then(function(result) {
-        // $scope.pkmnImage = "images/" + result.data.id + ".png"
-        $scope.name = result.data.name
+        $scope.name = result.data.name.capitalizeFirstLetter()
         $scope.id = result.data.id
         $scope.data = [
             result.data.attack.stat,
@@ -90,6 +101,51 @@ app.controller('pkmnCtrl', function($scope, $http, $rootScope, $routeParams) {
             result.data.hp.stat
         ]
 
+        typeSort = function(list) {
+            var types = []
+            for (i in list) {
+                types.push("images/types/" + list[i].name + ".png");
+            }
+            return types;
+        }
+
+        $scope.moveTypes = [{
+            type: "Machine",
+            list: result.data.machine
+        }, {
+            type: "Tutor Moves",
+            list: result.data.tutorMoves
+        }, {
+            type: "Egg Moves",
+            list: result.data.egg
+        }];
+
+        $scope.leveling = result.data.leveling;
+
+        $scope.types = typeSort(result.data.types);
+        $scope.abilities = result.data.abilities;
+        $scope.color = result.data.types[0];
+
+        $scope.animationsEnabled = true;
+
+        $scope.open = function(id) {
+            $log.log(id)
+            $http.get('/api/move/' + id).then(function(result) {
+                $scope.moveName = result.data.name
+
+                var modalInstance = $uibModal.open({
+                    animation: $scope.animationsEnabled,
+                    templateUrl: 'myModalContent.html',
+                    controller: 'ModalInstanceCtrl',
+                    size: '',
+                    resolve: {
+                        data: function() {
+                            return result.data;
+                        }
+                    }
+                });
+            });
+        };
     });
 
     $scope.chartOptions = {
@@ -104,4 +160,11 @@ app.controller('pkmnCtrl', function($scope, $http, $rootScope, $routeParams) {
         }
     }
     $scope.labels = ['attack', 'defense', 'special attack', 'special defense', 'speed', 'hp'];
-})
+});
+
+app.controller('ModalInstanceCtrl', function($scope, $uibModalInstance, data) {
+    $scope.data = data
+    $scope.ok = function() {
+        $uibModalInstance.close();
+    };
+});
