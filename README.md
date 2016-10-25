@@ -9,3 +9,7 @@ A simple database of Pokemon, Moves, Abilities, and Types. Has the ability to so
 4. Chart.js
 5. Angular-chart.js
 6. Pokeapi.co for datascraping and pulling
+
+## Simple Set Up
+1. run elasticsearch ./bin/elasticsearch (in elastic search folder)
+2. run node server: node server.js
